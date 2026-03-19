@@ -14,15 +14,20 @@
 * Eye editor / dev mode
   * Persistence
     * Should save to a json file or something
+    * Load from JSON
   * Editor
     * Right click to add, drag to size
     * In compendium for now
   * A way to enable it
     * Mod settings with a button to enable "dev mode" or something
 * Googly eyes
-  * Animate
+  * Make em googly
   * Place them in the right place and stuff
   * Make sure they work with scaling and what not
+  * Use configuration
+* Add README
+* Figure out how to distribute
+* Update description and stuff
 
 # Future ideas
 * Eyes follow mouse

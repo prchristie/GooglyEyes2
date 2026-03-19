@@ -1,0 +1,26 @@
+{
+  "cardDefinitions": [
+    {
+      "id": "",
+      "eyeAnchors": [
+        {
+          "offsetX": 0,
+          "offsetY": 0,
+          "radiusPx": 0
+        }
+      ]
+    }
+  ],
+  "relicDefinitions": [
+    {
+      "id": "",
+      "eyeAnchors": [
+        {
+          "offsetX": 0,
+          "offsetY": 0,
+          "radiusPx": 0
+        }
+      ]
+    }
+  ]
+}
