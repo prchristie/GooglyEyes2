@@ -108,6 +108,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Include="assets\iris.png" />
+      <Content Include="assets\sclera.png" />
+      <Content Include="config\config.json" />
+      <Content Include="config.example.json" />
       <Content Include="todo.md" />
     </ItemGroup>
 
@@ -124,6 +128,7 @@
         <Message Text="Copying .dll and manifest to mods folder." Importance="high"/>
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"/>
         <Copy SourceFiles="GooglyEyes.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"/>
+        <Copy SourceFiles="config/config.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/config/"/>
         <Message Text="Copying BaseLib to mods folder." Importance="high"/>
         <ItemGroup>
             <BaseLibFiles Include="$(NuGetPackageRoot)/alchyr.sts2.baselib/**/lib/**/BaseLib.dll;$(NuGetPackageRoot)/alchyr.sts2.baselib/**/Content/BaseLib.pck;$(NuGetPackageRoot)/alchyr.sts2.baselib/**/Content/BaseLib.json;"/>
