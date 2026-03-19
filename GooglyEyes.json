@@ -1,0 +1,11 @@
+{
+  "id": "GooglyEyes",
+  "name": "Googly Eyes",
+  "author": "patch.dev",
+  "description": "Makes eye much better",
+  "version": "v0.0.1",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": ["BaseLib"],
+  "affects_gameplay": false
+}
