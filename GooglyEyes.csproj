@@ -50,14 +50,13 @@
     <!-- macOS -->
     <PropertyGroup Condition="'$(IsOSX)' == 'true'">
         <SteamLibraryPath Condition="'$(SteamLibraryPath)' == ''">$(HOME)/Library/Application Support/Steam/steamapps</SteamLibraryPath>
-        <GodotPath Condition="'$(GodotPath)' == ''">/Applications/Godot.app/Contents/MacOS/Godot</GodotPath>
+        <GodotPath Condition="'$(GodotPath)' == ''">$(HOME)/Applications/MegaDot.app/Contents/MacOS/Godot</GodotPath>
 
         <!-- The below should not need to be changed. -->
         <Sts2Path>$(SteamLibraryPath)/common/Slay the Spire 2</Sts2Path>
         <ModsPath>$(Sts2Path)/SlayTheSpire2.app/Contents/MacOS/mods/</ModsPath>
         <Sts2DataDir>$(Sts2Path)/SlayTheSpire2.app/Contents/Resources/data_sts2_macos_x86_64</Sts2DataDir>
     </PropertyGroup>
-
     <PropertyGroup>
         <!-- Diasble architecture mismatch warning; mods are ideally built for all platforms (MSIL)
              while your local StS2 version will be for your specific platform. -->
@@ -78,7 +77,7 @@
 
     <ItemGroup>
         <PackageReference Include="Alchyr.Sts2.BaseLib" Version="*" PrivateAssets="All"/>
-        <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="*"/>
+        <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="0.1.6" />
         <AdditionalFiles Include="GooglyEyes/localization/**/*.json"/>
     </ItemGroup>
 
@@ -98,21 +97,17 @@
         <None Include="GooglyEyes.json"/>
         <None Include="project.godot"/>
         <None Include="GooglyEyes/**"/>
+        <None Include="export_presets.cfg"/>
+        <None Include="todo.md"/>
+        <None Include="config\config.json"/>
+        <None Include="config.example.json"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3">
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="assets\iris.png" />
-      <Content Include="assets\sclera.png" />
-      <Content Include="config\config.json" />
-      <Content Include="config.example.json" />
-      <Content Include="todo.md" />
     </ItemGroup>
 
     <Target Name="CheckDependencyPaths">
@@ -128,7 +123,6 @@
         <Message Text="Copying .dll and manifest to mods folder." Importance="high"/>
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"/>
         <Copy SourceFiles="GooglyEyes.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"/>
-        <Copy SourceFiles="config/config.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/config/"/>
         <Message Text="Copying BaseLib to mods folder." Importance="high"/>
         <ItemGroup>
             <BaseLibFiles Include="$(NuGetPackageRoot)/alchyr.sts2.baselib/**/lib/**/BaseLib.dll;$(NuGetPackageRoot)/alchyr.sts2.baselib/**/Content/BaseLib.pck;$(NuGetPackageRoot)/alchyr.sts2.baselib/**/Content/BaseLib.json;"/>
