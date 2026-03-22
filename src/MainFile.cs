@@ -3,34 +3,42 @@ using GooglyEyes.config;
 using GooglyEyes.config.persistence;
 using GooglyEyes.config.persistence.models;
 using HarmonyLib;
+using MegaCrit.Sts2.Core.Bindings.MegaSpine;
+using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Modding;
+using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
+using MegaCrit.Sts2.Core.Saves;
 
 namespace GooglyEyes;
 
 [ModInitializer(nameof(Initialize))]
 public partial class MainFile : Node
 {
-    public const string ModId = "GooglyEyes"; //At the moment, this is used only for the Logger and harmony names.
+    private const string ModId = "GooglyEyes";
 
-    public static MegaCrit.Sts2.Core.Logging.Logger Logger { get; } =
+    private static MegaCrit.Sts2.Core.Logging.Logger Logger { get; } =
         new(nameof(MainFile), MegaCrit.Sts2.Core.Logging.LogType.Generic);
 
     public static void Initialize()
     {
-        string baseDir = Path.GetDirectoryName(OS.GetExecutablePath());
-        string configPath = Path.Combine(baseDir, "mods", "GooglyEyes", "config", "config.json");
+        var pckConfigPath = "res://config/config.json";
+        var userConfigPath = "user://GooglyEyes/config/config.json";
 
-        JsonEyeConfigRepo jsonEyeConfigRepo = new JsonEyeConfigRepo(configPath);
-        EyeConfigManager ecm = new EyeConfigManager(jsonEyeConfigRepo);
-        jsonEyeConfigRepo.Save(new EyeConfig
+        GodotConfigReadSource primaryConfigSource = new(pckConfigPath);
+        GodotConfigReadSource secondaryConfigSource = new(userConfigPath);
+        FallbackConfigReadSource fallbackConfigReadSource = new(primaryConfigSource, secondaryConfigSource);
+        GodotUserConfigWriteSource write = new(userConfigPath);
+        EyeConfigManager ecm = new EyeConfigManager(write, fallbackConfigReadSource);
+        ecm.Save(new EyeConfig
         {
             CardDefinitions = new Dictionary<string, CardEyeConfig>
             {
                 {
-                    "BodySlam",
+                    "StrikeIronclad",
                     new CardEyeConfig
                     {
-                        Name = "BodySlam",
+                        Name = "StrikeIronclad",
                         EyeAnchors =
                         [
                             new()
@@ -44,7 +52,7 @@ public partial class MainFile : Node
                 }
             }
         });
-        CardGooglyEyesPatch.Config = ecm.GetConfig();
+        CardGooglyEyesPatch.Config = ecm.LoadConfig();
 
         Logger.Info("Initializing GooglyEyes");
 

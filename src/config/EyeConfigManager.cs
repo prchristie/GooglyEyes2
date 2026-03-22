@@ -3,19 +3,25 @@ using GooglyEyes.config.persistence.models;
 
 namespace GooglyEyes.config;
 
-public class EyeConfigManager(JsonEyeConfigRepo repo)
+public class EyeConfigManager(IConfigWriteSource write, IConfigReadSource read)
 {
     private EyeConfig? _cachedConfig;
 
-    private EyeConfig? LoadConfig()
+    private EyeConfig? ReloadConfig()
     {
-        _cachedConfig = repo.Load();
+        _cachedConfig = read.Read();
         return _cachedConfig;
     }
 
-    public EyeConfig GetConfig()
+    public void Save(EyeConfig config)
     {
-        var config = _cachedConfig ?? LoadConfig();
+        write.Write(config);
+        ReloadConfig();
+    }
+
+    public EyeConfig LoadConfig()
+    {
+        var config = _cachedConfig ?? ReloadConfig();
         return config ?? EyeConfig.EMPTY;
     }
 }

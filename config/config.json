@@ -1,1 +1,14 @@
-{}
+{
+  "CardDefinitions": {
+    "StrikeIronclad": {
+      "Name": "StrikeIronclad",
+      "EyeAnchors": [
+        {
+          "OffsetX": 0,
+          "OffsetY": 0,
+          "RadiusPx": 20
+        }
+      ]
+    }
+  }
+}                                                                                

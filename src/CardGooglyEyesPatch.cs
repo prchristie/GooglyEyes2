@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using GooglyEyes.config.persistence.models;
 using GooglyEyes.GooglyEyes;
 using MegaCrit.Sts2.Core.Nodes.Cards;
@@ -7,10 +9,13 @@ namespace GooglyEyes;
 using Godot;
 using HarmonyLib;
 
-[HarmonyPatch(typeof(NCard), "_Ready")]
+[HarmonyPatch(typeof(NCard), "UpdateVisuals")]
 public static class CardGooglyEyesPatch
 {
     public static EyeConfig? Config { get; set; }
+
+    // private static Dictionary<NCard, List<GooglyEye>> eyes = new();
+    private static HashSet<NCard> blah = new();
 
     public static MegaCrit.Sts2.Core.Logging.Logger Logger { get; } =
         new(nameof(GetType), MegaCrit.Sts2.Core.Logging.LogType.Generic);
@@ -22,6 +27,11 @@ public static class CardGooglyEyesPatch
         if (Config == null)
         {
             Logger.Info("Config is null");
+            return;
+        }
+
+        if (!blah.Add(__instance))
+        {
             return;
         }
 
