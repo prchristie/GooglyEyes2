@@ -30,31 +30,7 @@ public partial class MainFile : Node
         FallbackConfigReadSource fallbackConfigReadSource = new(primaryConfigSource, secondaryConfigSource);
         GodotUserConfigWriteSource write = new(userConfigPath);
         EyeConfigManager ecm = new EyeConfigManager(write, fallbackConfigReadSource);
-        ecm.Save(new EyeConfig
-        {
-            CardDefinitions = new Dictionary<string, CardEyeConfig>
-            {
-                {
-                    "StrikeIronclad",
-                    new CardEyeConfig
-                    {
-                        Name = "StrikeIronclad",
-                        EyeAnchors =
-                        [
-                            new()
-                            {
-                                OffsetX = 0,
-                                OffsetY = 0,
-                                RadiusPx = 20
-                            }
-                        ]
-                    }
-                }
-            }
-        });
         CardGooglyEyesPatch.Config = ecm.LoadConfig();
-
-        Logger.Info("Initializing GooglyEyes");
 
         Harmony harmony = new Harmony(ModId);
         harmony.PatchAll();
