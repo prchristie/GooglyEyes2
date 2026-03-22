@@ -22,11 +22,8 @@ public static class CardGooglyEyesPatch
 
     static void Postfix(NCard __instance)
     {
-        Logger.Info("Postfix triggered for NCard");
-
         if (Config == null)
         {
-            Logger.Info("Config is null");
             return;
         }
 
@@ -40,31 +37,21 @@ public static class CardGooglyEyesPatch
 
     private static void AddGooglyEyes(NCard card)
     {
-        Logger.Info("Entering AddGooglyEyes");
-
         if (card.Model == null)
         {
-            Logger.Info("Card model is null");
             return;
         }
-
-        Logger.Info($"Card model detected: {card.Model.GetType().Name}");
 
         var cardConfig = Config!.GetCardConfig(card.Model);
 
         if (cardConfig == null)
         {
-            Logger.Info("No config found for this card");
             return;
         }
 
-        Logger.Info($"Config found for card: {cardConfig.Name}");
-
         var container = new Node2D { Name = "GooglyEyesContainer" };
-        Logger.Info("Created GooglyEyes container node");
 
         var eyes = CreateEyes(cardConfig).ToList();
-        Logger.Info($"Created {eyes.Count} eyes");
 
         foreach (var eye in eyes)
         {
@@ -72,14 +59,12 @@ public static class CardGooglyEyesPatch
         }
 
         card.AddChild(container);
-        Logger.Info("Added GooglyEyes container to card");
     }
 
     private static IEnumerable<GooglyEye> CreateEyes(CardEyeConfig cardConfig)
     {
         foreach (var ea in cardConfig.EyeAnchors)
         {
-            Logger.Info($"Creating eye with OffsetX={ea.OffsetX}, OffsetY={ea.OffsetY}, Radius={ea.RadiusPx}");
             yield return new GooglyEye(new Vector2(ea.OffsetX, ea.OffsetY), (int)ea.RadiusPx);
         }
     }
